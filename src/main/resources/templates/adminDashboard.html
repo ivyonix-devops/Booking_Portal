@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en" data-pc-preset="preset-1" data-pc-sidebar-caption="true" data-pc-direction="ltr" dir="ltr"
+      data-pc-theme="light" xmlns:th="http://www.w3.org/1999/xhtml">
+<!-- [Head] start -->
+
+<head>
+    <title>Transverra_|Admin_Dashboard</title>
+    <!-- [Meta] -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+            name="description"
+            content="Datta Able is trending dashboard template made using Bootstrap 5 design framework. Datta Able is available in Bootstrap, React, CodeIgniter, Angular,  and .net Technologies."
+    />
+    <meta
+            name="keywords"
+            content="Bootstrap admin template, Dashboard UI Kit, Dashboard Template, Backend Panel, react dashboard, angular dashboard"
+    />
+    <meta name="author" content="CodedThemes"/>
+
+    <!-- [Favicon] icon -->
+    <link rel="icon" href="/assets/images/favicon.svg" type="image/x-icon"/>
+
+    <!-- [Font] Family -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+    <!-- [phosphor Icons] https://phosphoricons.com/ -->
+    <link rel="stylesheet" href="/dist/assets/fonts/phosphor/duotone/style.css"/>
+    <!-- [Tabler Icons] https://tablericons.com -->
+    <link rel="stylesheet" href="/dist/assets/fonts/tabler-icons.min.css"/>
+    <!-- [Feather Icons] https://feathericons.com -->
+    <link rel="stylesheet" href="/dist/assets/fonts/feather.css"/>
+    <!-- [Font Awesome Icons] https://fontawesome.com/icons -->
+    <link rel="stylesheet" href="/dist/assets/fonts/fontawesome.css"/>
+    <!-- [Material Icons] https://fonts.google.com/icons -->
+    <link rel="stylesheet" href="/dist/assets/fonts/material.css"/>
+    <!-- [Template CSS Files] -->
+    <link rel="stylesheet" href="/dist/assets/css/style.css" id="main-style-link" />
+    <!-- Boostrap Icons   -->
+
+</head>
+<!-- [Head] end -->
+<style>
+
+    /* increase table width to left without scroll */
+  .pc-container {
+      margin-left: 200px !important;  /* was ~224px */
+  }
+      .sidebar {
+       width: 200px;    /* Reduced sidebar */
+   }
+   .main-content {
+       margin-left: 220px !important;
+   }
+
+   /* same font size for all cells - Font od table*/
+   .table td,
+   .table th {
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+   /* prevent <small> from shrinking text - Font od table */
+   .table td small {
+      font-size: inherit;
+   }
+
+  /* Status pill */
+  .status-pill {
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 600;
+      display: inline-block;
+      text-transform: uppercase;
+  }
+
+  /* Status colors */
+  .status-pending {
+      background-color: #fff3cd;
+      color: #856404;
+  }
+  .status-confirmed {
+      background-color: #d1e7dd;
+      color: #0f5132;
+  }
+  .status-completed {
+      background-color: #cff4fc;
+      color: #055160;
+  }
+  .status-cancelled {
+      background-color: #f8d7da;
+      color: #842029;
+  }
+  /* ===== Action Icons (Filter-button style) ===== */
+  /* action column – single row */
+   .action-col {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+}
+  /* icon button - Action*/
+  .icon-btn {
+    width: 30px;
+    height: 26px;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+}
+  /* colors -Action */
+  .icon-confirm {
+      background-color: #28a745; /* green */
+  }
+  .icon-complete {
+      background-color: #0d6efd; /* blue */
+  }
+  .icon-cancel {
+      background-color: #dc3545; /* red */
+  }
+  .icon-delete {
+      background-color: #6c757d; /* gray */
+  }
+
+  /* hover */
+  .icon-btn:hover {
+      filter: brightness(0.9);
+      transform: scale(1.05);
+  }
+
+  /* disabled */
+  .icon-btn.disabled {
+      background-color: #adb5bd;
+      cursor: not-allowed;
+      opacity: 0.7;
+      transform: none;
+  }
+
+  <!--    not scroll-->
+  .table-no-scroll {
+      width: 100%;
+      overflow-x: hidden;   /* ❌ disables horizontal scroll */
+  }
+
+  .table {
+      table-layout: fixed;  /* ✅ forces columns to fit */
+      width: 100%;
+  }
+
+  .table td,
+  .table th {
+      word-wrap: break-word;
+      white-space: normal;  /* ✅ text wraps instead of expanding */
+  }
+      #searchInput {
+      border-radius: 8px;
+      padding: 10px 14px;
+  }
+<!--Search bar by Name, Email, Mobile-->
+    #suggestions li {
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#suggestions li:hover {
+    background-color: #f1f3f5;
+}
+<!--avoid the square in trash icon-->
+.fa-trash-o::before {
+    display: none !important;
+    content: none !important;
+}
+<!--  force equal size !-->
+
+.status-pill {
+    font-size: 12px !important;
+    font-weight: 600;
+}
+
+
+
+</style>
+<!-- [Body] Start -->
+
+<body>
+<!-- [ Pre-loader ] start -->
+<div class="loader-bg fixed inset-0 bg-white dark:bg-themedark-cardbg z-[1034]">
+    <div class="loader-track h-[5px] w-full inline-block absolute overflow-hidden top-0">
+        <div class="loader-fill w-[300px] h-[5px] bg-primary-500 absolute top-0 left-0 animate-[hitZak_0.6s_ease-in-out_infinite_alternate]"></div>
+    </div>
+</div>
+<!-- [ Pre-loader ] End -->
+<!-- [ Sidebar Menu ] start -->
+<nav class="pc-sidebar"  style="width:224px">
+    <!-- Logo / Website Name -->
+    <div class="m-header flex items-center py-3 px-4">
+        <a href="#" class="b-brand">
+            <h4 class="text-light mb-0">Transverra</h4>
+        </a>
+    </div>
+
+    <!-- Sidebar Content -->
+    <div class="navbar-content py-2">
+        <ul class="pc-navbar">
+
+            <!-- Caption -->
+            <li class="pc-item pc-caption">
+                <label>Admin Dashboard</label>
+            </li>
+
+            <!-- Trip Details Menu -->
+            <li class="pc-item">
+                <a href="/admin/trip-details" class="pc-link">
+                    <span class="pc-micon">
+                        <i data-feather="map"></i>
+                    </span>
+                    <span class="pc-mtext">Trip Details</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+
+<!-- [ Sidebar Menu ] end -->
+
+
+<!-- [ Header Topbar ] start -->
+<header class="pc-header">
+    <div class="header-wrapper flex max-sm:px-[15px] px-[25px] grow"><!-- [Mobile Media Block] start -->
+        <div class="me-auto pc-mob-drp">
+            <ul class="inline-flex *:min-h-header-height *:inline-flex *:items-center">
+                <li class="pc-h-item pc-sidebar-popup lg:hidden">
+                    <a href="#" class="pc-head-link ltr:!ml-0 rtl:!mr-0" id="mobile-collapse">
+                        <i data-feather="menu"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <!-- [Mobile Media Block end] -->
+        <div class="ms-auto">
+            <ul class="inline-flex *:min-h-header-height *:inline-flex *:items-center">
+                <li class="dropdown pc-h-item">
+                    <a class="pc-head-link dropdown-toggle me-0" data-pc-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="false" aria-expanded="false">
+                        <i data-feather="sun"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
+                        <a href="#!" class="dropdown-item" onclick="layout_change('dark')">
+                            <i data-feather="moon"></i>
+                            <span>Dark</span>
+                        </a>
+                        <a href="#!" class="dropdown-item" onclick="layout_change('light')">
+                            <i data-feather="sun"></i>
+                            <span>Light</span>
+                        </a>
+                        <a href="#!" class="dropdown-item" onclick="layout_change_default()">
+                            <i data-feather="settings"></i>
+                            <span>Default</span>
+                        </a>
+                    </div>
+                </li>
+                <li class="dropdown pc-h-item">
+                    <a class="pc-head-link dropdown-toggle me-0" data-pc-toggle="dropdown" href="#" role="button"
+                       aria-haspopup="false" aria-expanded="false">
+                        <i data-feather="settings"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end pc-h-dropdown">
+                        <a href="#!" class="dropdown-item">
+                            <i class="ti ti-user"></i>
+                            <span>My Account</span>
+                        </a>
+                        <a href="#!" class="dropdown-item">
+                            <i class="ti ti-power"></i>
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </li>
+<!--    notifications -->
+                <li class="dropdown pc-h-item">
+
+                    <div class="grid my-3">
+                    <form th:action="@{/admin/logout}" method="post" class="grid my-3">
+                        <button type="submit" class="btn btn-danger flex items-center justify-center">
+                            <svg class="pc-icon me-2 w-[22px] h-[22px]">
+                                <use xlink:href="#custom-logout-1-outline"></use>
+                            </svg>
+                            Admin Logout
+                        </button>
+                    </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+<!-- [ Header ] end -->
+
+
+
+<!-- [ Main Content ] start -->
+<div class="pc-container">
+
+        <div class="pc-content">
+            <div class="w-full max-w-none">
+                <div class="grid grid-cols-12 gap-6">
+
+                    <!-- Total Bookings -->
+                    <div class="col-span-12 md:col-span-6 xl:col-span-3">
+                        <div class="card bg-gradient-to-r from-blue-500 to-blue-400 text-white shadow-lg hover:shadow-xl transition rounded-xl">
+                            <div class="card-body">
+                                <h6 class="text-sm uppercase tracking-wide opacity-90">Total Bookings</h6>
+                                <h3 class="text-3xl font-bold mt-2" th:text="${total}">120</h3>
+                                <div class="w-full h-1 bg-blue-300 mt-4 rounded">
+                                    <div class="h-1 bg-white w-full rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending -->
+                    <div class="col-span-12 md:col-span-6 xl:col-span-3">
+                        <div class="card bg-gradient-to-r from-yellow-400 to-yellow-300 text-gray-900 shadow-lg hover:shadow-xl transition rounded-xl">
+                            <div class="card-body">
+                                <h6 class="text-sm uppercase tracking-wide">Pending</h6>
+                                <h3 class="text-3xl font-bold mt-2" th:text="${pending}">32</h3>
+                                <div class="w-full h-1 bg-yellow-200 mt-4 rounded">
+                                    <div class="h-1 bg-yellow-700 w-[30%] rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Confirmed -->
+                    <div class="col-span-12 md:col-span-6 xl:col-span-3">
+                        <div class="card bg-gradient-to-r from-green-500 to-green-400 text-white shadow-lg hover:shadow-xl transition rounded-xl">
+                            <div class="card-body">
+                                <h6 class="text-sm uppercase tracking-wide opacity-90">Confirmed</h6>
+                                <h3 class="text-3xl font-bold mt-2" th:text="${confirmed}">68</h3>
+                                <div class="w-full h-1 bg-green-300 mt-4 rounded">
+                                    <div class="h-1 bg-white w-[60%] rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Completed -->
+                    <div class="col-span-12 md:col-span-6 xl:col-span-3">
+                        <div class="card bg-gradient-to-r from-purple-500 to-purple-400 text-white shadow-lg hover:shadow-xl transition rounded-xl">
+                            <div class="card-body">
+                                <h6 class="text-sm uppercase tracking-wide opacity-90">Completed</h6>
+                                <h3 class="text-3xl font-bold mt-2" th:text="${completed}">45</h3>
+                                <div class="w-full h-1 bg-purple-300 mt-4 rounded">
+                                    <div class="h-1 bg-white w-[45%] rounded"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row align-items-center mb-3">
+
+                    <form action="/admin/dashboard/search" method="get" class="mb-3 text-center position-relative">
+                        <input type="text"
+                               name="keyword"
+                               id="searchInput"
+                               class="form-control d-inline-block"
+                               style="max-width:400px"
+                               placeholder="Search by name, email, mobile"
+                               autocomplete="off">
+
+                        <div id="suggestionsBox"
+                             class="list-group position-absolute"
+                             style="max-width:400px; z-index:1000;"></div>
+                    </form>
+                    <!--Suggestion Box-->
+                    <div id="suggestionBox" class="list-group position-absolute w-100"></div>
+
+                    <!-- Buttons -->
+                    <div class="col-md-8 col-12 text-md-end text-start">
+                        <a th:href="@{/admin/dashboard}" class="btn btn-primary btn-sm">All</a>
+                        <a th:href="@{/admin/dashboard/status/PENDING}" class="btn btn-warning btn-sm">Pending</a>
+                        <a th:href="@{/admin/dashboard/status/COMPLETED}" class="btn btn-success btn-sm">Completed</a>
+                        <a th:href="@{/admin/dashboard/status/CANCELLED}" class="btn btn-danger btn-sm">Cancelled</a>
+                        <a th:href="@{/admin/dashboard/status/CONFIRMED}" class="btn btn-info btn-sm">Confirmed</a>
+                        <a th:href="@{/admin/export-details}" class="btn btn-success btn-sm">
+                            <i class="fas fa-file-excel"></i>Export
+                        </a>
+                    </div>
+
+                </div>
+
+                <!--table starts-->
+
+        <div class="col-span-12 xl:col-span-8 md:col-span-6">
+            <div class="card table-card">
+                <div class="card-header">
+                    <h5>Recent Bookings</h5>
+                </div>
+
+                <div class="card-body">
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Mobile</th>
+                                <th>Pickup Date</th>
+                                <th>Location</th>
+                                <th>Travellers</th>
+                                <th>Trip Rate (AED)</th>
+                                <th>Status</th>
+                                <th >Action</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr th:each="t : ${trips}">
+
+                                <td th:text="${t.name}"></td>
+                                <td th:text="${t.mail}"></td>
+                                <td th:text="${t.mobile}"></td>
+                                <td th:text="${#temporals.format(t.pickUpDate, 'MMMM dd, yyyy')}"></td>
+
+                                <td>
+                                    <small>
+                                        <strong>From:</strong> <span th:text="${t.pickupLocation}"></span><br>
+                                        <strong>To:</strong> <span th:text="${t.dropLocation}"></span>
+                                    </small>
+                                </td>
+
+                                <td class="text-center" th:text="${t.travellersCount}"></td>
+                                <!-- trip rate-->
+                                <td>
+                                    <strong>AED</strong>
+                                    <span th:text="${t.tripRate}">0.00</span>
+                                </td>
+
+                                <!-- STATUS -->
+                                <td>
+                                    <span th:if="${t.status.name()=='PENDING'}"
+                                          class="status-pill pending status-pending"> Pending  </span>
+
+                                    <span th:if="${t.status.name()=='CONFIRMED'}"
+                                          class="status-pill status-confirmed">Confirmed</span>
+
+                                    <span th:if="${t.status.name()=='COMPLETED'}"
+                                          class="status-pill status-completed">Completed</span>
+
+                                    <span th:if="${t.status.name()=='CANCELLED'}"
+                                          class="status-pill status-cancelled">Cancelled</span>
+                                </td>
+
+                                <!-- ACTIONS -->
+                                <td>
+                                    <div class="action-col">
+                                        <!-- PENDING → CONFIRM -->
+                                        <small>
+                                            <a th:if="${t.status.name()=='PENDING'}"
+                                               th:href="@{/admin/dashboard/action/{id}(id=${t.tripId})}"
+                                               data-bs-toggle="tooltip"
+                                               title="Confirm Trip">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-square" viewBox="0 0 16 16">
+                                                    <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"/>
+                                                    <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425z"/>
+                                                </svg>
+                                            </a>
+                                        </small>
+
+                                        <!-- CONFIRMED → COMPLETE -->
+                                            <a th:if="${t.status.name()=='CONFIRMED'}"
+                                           th:href="@{/admin/dashboard/action/{id}(id=${t.tripId})}"
+                                           data-bs-toggle="tooltip"
+                                           title="Mark as Completed">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-check" viewBox="0 0 16 16">
+                                                    <path d="M10.854 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 8.793l2.646-2.647a.5.5 0 0 1 .708 0"/>
+                                                    <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1"/>
+                                                </svg>
+                                        </a>
+
+                                        <!-- COMPLETED (disabled icon) -->
+                                            <span th:if="${t.status.name()=='COMPLETED'}"
+                                                  data-bs-toggle="tooltip"
+                                                  title="Already Completed"
+                                                  style="opacity:0.6; cursor:not-allowed;">
+                                            </span>
+
+
+                                        <!-- CANCEL -->
+                                            <a th:if="${t.status.name()!='CANCELLED'}"
+                                               th:href="@{/admin/dashboard/cancel/{id}(id=${t.tripId})}"
+                                               data-bs-toggle="tooltip"
+                                               title="Cancel Trip">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-excel" viewBox="0 0 16 16">
+                                                    <path d="M5.18 4.616a.5.5 0 0 1 .704.064L8 7.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 8l2.233 2.68a.5.5 0 0 1-.768.64L8 8.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 8 5.116 5.32a.5.5 0 0 1 .064-.704"/>
+                                                    <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1"/>
+                                                </svg>
+                                            </a>
+
+                                        <!-- DELETE -->
+                                        <a th:href="@{/admin/dashboard/delete/{id}(id=${t.tripId})}"
+                                           title="Delete Record">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5m3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0z"/>
+                                                <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4zM2.5 3h11V2h-11z"/>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+<!-- Required Js -->
+<script src="/dist/assets/js/script.js"></script>
+<script src="/dist/assets/js/plugins/popper.min.js"></script>
+<script src="/dist/assets/js/icon/custom-icon.js"></script>
+    <script src="/dist/assets/js/plugins/simplebar.min.js"></script>
+<script src="/dist/assets/js/plugins/feather.min.js"></script>
+<script src="/dist/assets/js/component.js"></script>
+<script src="/dist/assets/js/theme.js"></script>
+
+<div class="floting-button fixed bottom-[50px] right-[30px] z-[1030]">
+</div>
+
+
+<script>
+    layout_change('false');
+</script>
+
+
+<script>
+    layout_theme_sidebar_change('dark');
+</script>
+
+
+<script>
+    change_box_container('false');
+</script>
+
+<script>
+    layout_caption_change('true');
+</script>
+
+<script>
+    layout_rtl_change('false');
+</script>
+
+<script>
+    preset_change('preset-1');
+</script>
+
+<script>
+    main_layout_change('vertical');
+</script>
+        </div>
+</div>
+</body>
+<!-- [Body] end -->
+</html>
+<!--To Autogenerate Search bar by Name, Email, Mobile-->
+<!--<script>-->
+<!--    const input = document.getElementById("searchInput");-->
+<!--    const list = document.getElementById("suggestions");-->
+
+<!--    input.addEventListener("keyup", function () {-->
+<!--        const value = this.value.trim();-->
+
+<!--        if (value.length < 1) {-->
+<!--            list.style.display = "none";-->
+<!--            return;-->
+<!--        }-->
+
+<!--        fetch(`/admin/dashboard/autosuggest?keyword=${value}`)-->
+<!--            .then(res => res.json())-->
+<!--            .then(data => {-->
+<!--                list.innerHTML = "";-->
+
+<!--                if (data.length === 0) {-->
+<!--                    list.style.display = "none";-->
+<!--                    return;-->
+<!--                }-->
+
+<!--                data.forEach(item => {-->
+<!--                    const li = document.createElement("li");-->
+<!--                    li.textContent = item;-->
+
+<!--                    li.onclick = () => {-->
+<!--                        input.value = item;-->
+<!--                        list.style.display = "none";-->
+<!--                        window.location.href =-->
+<!--                          `/admin/dashboard/search?keyword=${item}`;-->
+<!--                    };-->
+
+<!--                    list.appendChild(li);-->
+<!--                });-->
+
+<!--                list.style.display = "block";-->
+<!--            });-->
+<!--    });-->
+<!--</script>-->
+<style>
+    /* highlight for selected suggestion */
+    .suggestion-active {
+        background-color: #f1f3f5;
+    }
+</style>
+
+<script>
+    // Autosuggest with keyboard navigation (up/down/enter), click selection and escape handling
+    document.addEventListener("DOMContentLoaded", function () {
+        const input = document.getElementById("searchInput");
+        const box = document.getElementById("suggestionsBox");
+
+        if (!input || !box) return; // defensive
+
+        let suggestions = [];
+        let selectedIndex = -1;
+
+        function clearBox() {
+            box.innerHTML = "";
+            box.style.display = "none";
+            selectedIndex = -1;
+            suggestions = [];
+        }
+
+        function render() {
+            box.innerHTML = "";
+            if (!suggestions || suggestions.length === 0) {
+                box.style.display = "none";
+                return;
+            }
+
+            suggestions.forEach((item, idx) => {
+                const div = document.createElement("div");
+                div.className = "list-group-item list-group-item-action suggestion-item";
+                div.textContent = item;
+                div.setAttribute("data-index", idx);
+
+                if (idx === selectedIndex) {
+                    div.classList.add("suggestion-active");
+                }
+
+                // Use mousedown to capture before input blur
+                div.addEventListener("mousedown", function (e) {
+                    e.preventDefault();
+                    selectSuggestion(idx);
+                });
+
+                box.appendChild(div);
+            });
+
+            box.style.display = "block";
+        }
+
+        function selectSuggestion(idx) {
+            if (idx >= 0 && idx < suggestions.length) {
+                input.value = suggestions[idx];
+                clearBox();
+                // submit the parent form (search form)
+                if (input.form) input.form.submit();
+            }
+        }
+
+        input.addEventListener("input", function () {
+            const keyword = this.value.trim();
+            if (!keyword) {
+                clearBox();
+                return;
+            }
+
+            fetch(`/admin/dashboard/autosuggest?keyword=${encodeURIComponent(keyword)}`)
+                .then(res => res.json())
+                .then(data => {
+                    // expected: data = ["name1", "email@x", "12345678", ...]
+                    suggestions = Array.isArray(data) ? data : [];
+                    selectedIndex = -1;
+                    render();
+                })
+                .catch(err => {
+                    console.error("Autosuggest error", err);
+                    clearBox();
+                });
+        });
+
+        input.addEventListener("keydown", function (e) {
+            // when suggestions hidden, allow normal typing/enter
+            if (box.style.display === "none") return;
+
+            if (e.key === "ArrowDown") {
+                e.preventDefault();
+                selectedIndex = Math.min(selectedIndex + 1, suggestions.length - 1);
+                render();
+                scrollIntoView();
+            } else if (e.key === "ArrowUp") {
+                e.preventDefault();
+                selectedIndex = Math.max(selectedIndex - 1, 0);
+                render();
+                scrollIntoView();
+            } else if (e.key === "Enter") {
+                e.preventDefault();
+                if (selectedIndex >= 0) {
+                    selectSuggestion(selectedIndex);
+                } else {
+                    // no selection -> submit current input
+                    if (input.form) input.form.submit();
+                }
+            } else if (e.key === "Escape") {
+                clearBox();
+            }
+        });
+
+        function scrollIntoView() {
+            const el = box.querySelector(`[data-index="${selectedIndex}"]`);
+            if (el) el.scrollIntoView({block: 'nearest'});
+        }
+
+        // click outside closes suggestions
+        document.addEventListener('click', function (ev) {
+            if (!box.contains(ev.target) && ev.target !== input) {
+                clearBox();
+            }
+        });
+    });
+</script>
