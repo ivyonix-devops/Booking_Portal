@@ -131,7 +131,28 @@
 <script>
   main_layout_change('vertical');
 </script>
+<!--to avoid username only login -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const username = document.getElementById("floatingInput");
+    const password = document.getElementById("floatingInput1");
 
+    // Enter on username → move to password
+    username.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        e.preventDefault(); // stop form submit
+        password.focus();
+      }
+    });
+
+    // Enter on password → submit form
+    password.addEventListener("keydown", function (e) {
+      if (e.key === "Enter") {
+        password.closest("form").submit();
+      }
+    });
+  });
+</script>
 
 </body>
 <!-- [Body] end -->

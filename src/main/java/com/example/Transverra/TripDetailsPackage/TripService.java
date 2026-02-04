@@ -49,9 +49,6 @@ public class TripService {
     public DayTripsModel saveDayTripDetails(DayTripsModel dayTripsModel){
         return dayTripRepository.save(dayTripsModel);
     }
-//    public DayTripsModel getDayTripTyoByTripId(Long tripId){
-//        return dayTripRepository.findByTripId(tripId).orElseThrow(() -> new RuntimeException("Day trip not found for trip id: " + tripId)).getDayTrip();
-//    }
 
    }
 

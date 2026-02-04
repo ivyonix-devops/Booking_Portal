@@ -32,13 +32,20 @@ public class OneWayTransfer {
     private String oneWaySpecialReq;
 
 
-    @ManyToOne
+//    @ManyToOne
+    @OneToOne
     @JoinColumn (name="trip_id", nullable = false)
     private TripModel tripId;
 
     @ManyToOne
     @JoinColumn(name="user_id",nullable = false)
     private UserModel userId;
+
+//    // ONE WAY
+//    @OneToMany(mappedBy = "tripId",
+//            cascade = CascadeType.ALL,
+//            orphanRemoval = true)
+//    private List<OneWayTransfer> oneWayTransfers;
 
     public Long getOneWayId() {
         return oneWayId;

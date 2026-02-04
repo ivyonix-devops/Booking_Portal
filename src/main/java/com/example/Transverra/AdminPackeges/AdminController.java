@@ -4,6 +4,7 @@ import com.example.Transverra.TripDetailsPackage.Status;
 import com.example.Transverra.TripDetailsPackage.TripRepository;
 import com.example.Transverra.TripTypeDTOs.TripDetailsViewDTO;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -167,19 +168,30 @@ public class AdminController {
     }
 
     // ---------------- Delete Trip ----------------
+//    @Transactional
+//    @GetMapping("/admin/dashboard/delete/{tripId}")
+//    public String deleteTrip(@PathVariable Long tripId, HttpSession session) {
+//        if (session.getAttribute("isAdminLoggedIn") == null) {
+//            return "redirect:/admin/login";
+//        }
+//
+//        tripRepository.deleteById(tripId);
+//
+//        return "redirect:/admin/dashboard";
+//    }
+    // In AdminController
+    @Transactional
     @GetMapping("/admin/dashboard/delete/{tripId}")
     public String deleteTrip(@PathVariable Long tripId, HttpSession session) {
         if (session.getAttribute("isAdminLoggedIn") == null) {
             return "redirect:/admin/login";
         }
 
-        tripRepository.deleteById(tripId);
+        // Delete trip along with all children
+        adminService.deleteTripWithChildren(tripId);
 
         return "redirect:/admin/dashboard";
     }
-
-
-
     @GetMapping("/admin/error")
     public String admLoginError(){
         return "adminLoginError";

@@ -37,9 +37,10 @@ public class AirportArrival {
     @Column (name="vehicle_type")
     private String arriveVehicleType;
 
- @ManyToOne
- @JoinColumn(name="trip_id",nullable = false )
- private TripModel tripId;
+//    @ManyToOne
+    @OneToOne
+    @JoinColumn(name="trip_id",nullable = false )
+    private TripModel tripId;
 
     @ManyToOne
     @JoinColumn(name="user_id",nullable = false)
@@ -60,7 +61,7 @@ public class AirportArrival {
     }
 
     public void setArrivalDate(LocalDate arrivalDate) {
-        arrivalDate = arrivalDate;
+        this.arrivalDate = arrivalDate;
     }
 
     public LocalTime getArrivalTime() {

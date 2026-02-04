@@ -47,7 +47,12 @@ public class AdminService {
         List<TripDetailsViewDTO> dtos = new ArrayList<>();
 
         for (TripModel trip : trips) {
-
+//            sssss
+            // Skip trips that no longer have their type-specific detail row (deleted from specific trip table)
+            if (!hasChildForTrip(trip)) {
+                continue; // do not show this trip in admin dashboard
+            }
+//            endend
             TripDetailsViewDTO dto = new TripDetailsViewDTO();
 
             // 1️⃣ User data
@@ -144,6 +149,14 @@ public class AdminService {
         List<TripDetailsViewDTO> dtos = new ArrayList<>();
 
         for (TripModel trip : trips) {
+//            sss2
+            // If there is no corresponding type-specific row, skip this trip so admin dashboard doesn't show stale entries
+            if (!hasChildForTrip(trip)) {
+                continue;
+            }
+//2end
+
+
             TripDetailsViewDTO dto = new TripDetailsViewDTO();
 
             // User info
@@ -226,6 +239,34 @@ public class AdminService {
         return tripRepository.countByStatus(Status.COMPLETED);
     }
 
+//    sss3
+    /**
+     * Helper: returns true if the TripModel has at least one corresponding trip-type-specific row
+     * in the related specific trip table. If the detail row was deleted directly, this returns false.
+     */
+    private boolean hasChildForTrip(TripModel trip) {
+        if (trip == null || trip.getTripType() == null) return false;
+
+        switch (trip.getTripType()) {
+            case OWT:
+                return !oneWayRepository.findByTripId_TripId(trip.getTripId()).isEmpty();
+            case RT:
+                return !returntransferRepository.findBytripId_TripId(trip.getTripId()).isEmpty();
+            case AA:
+                return !arrivalRepository.findByTripId_TripId(trip.getTripId()).isEmpty();
+            case AD:
+                return !departureRepository.findByTripId_TripId(trip.getTripId()).isEmpty();
+            case HS:
+            case FS:
+            case H24:
+                List<DayTripsModel> dayTrips = dayTripRepository.findByTripId(trip);
+                return dayTrips != null && !dayTrips.isEmpty();
+            default:
+                // if unknown type, we avoid showing (safe default)
+                return false;
+        }
+    }
+//    3end
 
 
     /// fetching the status of each trip
@@ -262,5 +303,18 @@ public class AdminService {
 //                co-end
                 .toList();
     }
+//To cascade manual deletion in DB
+@Transactional
+public void deleteTripWithChildren(Long tripId) {
+    // 1️ Delete child rows first
+    oneWayRepository.deleteByTripId(tripId);
+    returntransferRepository.deleteByTripId(tripId);
+    arrivalRepository.deleteByTripId(tripId);
+    departureRepository.deleteByTripId(tripId);
+    dayTripRepository.deleteByTripId(tripId);
+
+    // 2️ Delete parent trip
+    tripRepository.deleteById(tripId);
+}
 
 }

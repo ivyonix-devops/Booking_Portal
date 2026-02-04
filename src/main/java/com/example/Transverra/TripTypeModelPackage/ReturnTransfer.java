@@ -38,7 +38,8 @@ public class ReturnTransfer {
     @Column (name="special_request")
     private String returnSpecialReq;
 
-    @ManyToOne
+//    @ManyToOne
+    @OneToOne
     @JoinColumn (name="trip_id", nullable = false)
     private TripModel tripId;
 

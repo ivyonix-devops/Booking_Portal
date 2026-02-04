@@ -38,7 +38,8 @@ public class AirportDeparture {
     @Column (name="vehicle_type")
     private String departVehicleType;
 
-    @ManyToOne
+//    @ManyToOne
+    @OneToOne
     @JoinColumn (name="trip_id", nullable = false)
     private TripModel tripId;
 

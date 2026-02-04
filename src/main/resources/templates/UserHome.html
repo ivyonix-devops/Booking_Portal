@@ -24,8 +24,10 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
 
     <!-- Template Stylesheet (LOCAL) -->
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css?v=2}">
 
+    <!--addiTIONALLY aDDED for time picker-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 
 </head>
@@ -74,34 +76,46 @@
         border-radius: 6px;
         cursor: pointer;
     }
+<!--    fix the scrollbar  -->
+    html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+<!--    time flicker size-->
+.flatpickr-calendar {
+    width: 40px !important;
+}
+
+.flatpickr-time {
+    height: 100px;
+}
+
+.flatpickr-time input {
+    font-size: 12px;
+}
+
 </style>
 
 
 <body>
 <div th:insert="@{UserHeader}"></div>
 <!-- Carousel Start -->
-<div class="header-carousel" th:fragment="formfully">
+ <div class="header-carousel" th:fragment="formfully">
     <div id="carouselId" class="carousel slide" data-bs-ride="carousel" data-bs-interval="false">
-        <ol class="carousel-indicators">
-            <li data-bs-target="#carouselId" data-bs-slide-to="0" class="active" aria-current="true" aria-label="First slide"></li>
-            <li data-bs-target="#carouselId" data-bs-slide-to="1" aria-label="Second slide"></li>
-        </ol>
+
         <div class="carousel-inner" role="listbox">
             <div class="carousel-item active">
-                <img src="img/carousel-2.jpg" class="img-fluid w-120" alt="First slide"/>
+                <img src="img/carousel-2.jpg" class="img-fluid w-100" alt="First slide"/>
                 <div class="carousel-caption">
                     <div class="container py-5" style="padding-left:0; padding-right:0;transform: translateY(-40px);">
-                        <div class="col-lg-7 col-md-10 mx-auto fadeInUp animated text-start"
+                        <div class="row justify-content-center">
+                          <div class="col-lg-7 col-md-10 mx-auto fadeInUp animated text-start"
                              data-animation="fadeInLeft"
                              data-delay="1s"
                              style="animation-delay: 1s;">
 
                             <div class="bg-secondary rounded p-5">
                                 <h4 class="text-white mb-3">BOOK YOUR JOURNEY</h4>
-<!--                                success massege-->
-                                <div th:if="${successMessage}" class="alert alert-success">
-                                    <span th:text="${successMessage}"></span>
-                                </div>
 
                                 <form th:action="@{/home}" method="post" th:object="${bookingform}" id="bookingForm">
                                     <div class="row g-3">
@@ -133,6 +147,7 @@
                                                        pattern="^[a-zA-Z0-9._%+-]+@gmail\.com$"
                                                        title="Please enter a valid Gmail address ending with @gmail.com"
                                                        required>
+
                                             </div>
                                             <small id="emailError" class="text-danger d-none">
                                                 Please enter a valid Gmail address (example@gmail.com)
@@ -203,21 +218,39 @@
                                                 </div>
                                             </div>
 
-                                            <!-- Pick Up Time -->
-                                            <div class="col-md-6">
-                                                <div class="input-group">
-                                                    <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
-                                                        <span class="fas fa-clock"></span>
-                                                        <span class="ms-1">Pick-up Time</span>
-                                                    </div>
-                                                    <input type="time"
-                                                           class="form-control form-control-sm"
-                                                           th:field="*{oneWayPickupTime}"
-                                                           required>
-                                                </div>
-                                            </div>
+                                          <!-- Pick Up Time -->
+<!--                                            <div class="col-md-6">-->
+<!--                                                <div class="input-group">-->
+<!--                                                    <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">-->
+<!--                                                        <span class="fas fa-clock"></span>-->
+<!--                                                        <span class="ms-1">Pick-up Time</span>-->
+<!--                                                    </div>-->
+<!--                                                    <input type="time"-->
+<!--                                                           class="form-control form-control-sm"-->
+<!--                                                           th:field="*{oneWayPickupTime}"-->
+<!--                                                           required>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
 
-                                            <!-- Pickup Location -->
+                                          <!--                                          -->
+                                          <div class="col-md-6">
+                                              <div class="input-group">
+                                                  <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
+                                                      <span class="fas fa-clock"></span>
+                                                      <span class="ms-1">Pick-up Time</span>
+                                                  </div>
+                                                  <input
+                                                          id="oneWayPickupTime"
+                                                          type="time"
+                                                          class="time-picker form-control form-control-sm"
+                                                          th:field="*{oneWayPickupTime}"
+                                                          placeholder="Select Time"
+                                                          required>
+                                              </div>
+                                          </div>
+
+
+                                          <!-- Pickup Location -->
                                             <div class="col-md-12">
                                                 <div class="input-group">
                                                     <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
@@ -329,18 +362,34 @@
                                         </div>
 
                                         <!-- Pick Up Time -->
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
-                                                    <span class="fas fa-clock"></span>
-                                                    <span class="ms-1">Pick-up Time</span>
-                                                </div>
-                                                <input type="time"
-                                                       class="form-control form-control-sm"
-                                                       th:field="*{retPickUpTime}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="col-md-6">-->
+<!--                                            <div class="input-group">-->
+<!--                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">-->
+<!--                                                    <span class="fas fa-clock"></span>-->
+<!--                                                    <span class="ms-1">Pick-up Time</span>-->
+<!--                                                </div>-->
+<!--                                                <input type="time"-->
+<!--                                                       class="form-control form-control-sm"-->
+<!--                                                       th:field="*{retPickUpTime}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
+                                          <!--                                          -->
+                                          <div class="col-md-6">
+                                              <div class="input-group">
+                                                  <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
+                                                      <span class="fas fa-clock"></span>
+                                                      <span class="ms-1">Pick-up Time</span>
+                                                  </div>
+                                                  <input
+                                                          id="retPickUpTime"
+                                                          type="text"
+                                                          class="time-picker form-control form-control-sm"
+                                                          th:field="*{retPickUpTime}"
+                                                          placeholder="Select Time"
+                                                          required>
+                                              </div>
+                                          </div>
                                         <!-- Pickup Location -->
                                         <div class="col-md-12">
                                             <div class="input-group">
@@ -397,17 +446,35 @@
                                                      style="z-index:1000;"></div>
                                         </div>
                                         <!-- Return Time -->
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
-                                                    <span class="fas fa-clock"></span>
-                                                    <span class="ms-1">Pick-up Time</span>
-                                                </div>
-                                                <input type="time"
-                                                       class="form-control form-control-sm"
-                                                       th:field="*{returnTime}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="col-md-6">-->
+<!--                                            <div class="input-group">-->
+<!--                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">-->
+<!--                                                    <span class="fas fa-clock"></span>-->
+<!--                                                    <span class="ms-1">Pick-up Time</span>-->
+<!--                                                </div>-->
+<!--                                                <input type="time"-->
+<!--                                                       class="form-control form-control-sm"-->
+<!--                                                       th:field="*{returnTime}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+                                          <!--                                          -->
+                                          <div class="col-md-6">
+                                              <div class="input-group">
+                                                  <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
+                                                      <span class="fas fa-clock"></span>
+                                                      <span class="ms-1">Return Pick-Up Time</span>
+                                                  </div>
+                                                  <input
+                                                          id="returnTime"
+                                                          type="time"
+                                                          class="time-picker form-control form-control-sm"
+                                                          th:field="*{returnTime}"
+                                                          placeholder="Select Time"
+                                                          required>
+                                              </div>
+                                          </div>
+
                                         <!-- Passengers -->
                                         <div class="col-md-6">
                                             <div class="input-group">
@@ -431,7 +498,7 @@
                                                     <span class="ms-1">Vehicle Type</span>
                                                 </div>
 
-                                                <select class="form-select form-control-sm"
+                                                <select class="form-select form-select-sm"
                                                         th:field="*{returnVehicleType}">
                                                     <option value="">Select Vehicle</option>
                                                     <option th:each="v : ${vehicleTypes}"
@@ -492,18 +559,34 @@
                                         </div>
 
                                         <!-- Arrival Time -->
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
-                                                    <span class="fas fa-clock"></span>
-                                                    <span class="ms-1">Arrival Time</span>
-                                                </div>
-                                                <input type="time"
-                                                       class="form-control form-control-sm"
-                                                       th:field="*{arrivalTime}">
-                                            </div>
-                                        </div>
+<!--                                        <div class="col-md-6">-->
+<!--                                            <div class="input-group">-->
+<!--                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">-->
+<!--                                                    <span class="fas fa-clock"></span>-->
+<!--                                                    <span class="ms-1">Arrival Time</span>-->
+<!--                                                </div>-->
+<!--                                                <input type="time"-->
+<!--                                                       class="form-control form-control-sm"-->
+<!--                                                       th:field="*{arrivalTime}">-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
+                                          <!--                                          -->
+                                          <div class="col-md-6">
+                                              <div class="input-group">
+                                                  <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
+                                                      <span class="fas fa-clock"></span>
+                                                      <span class="ms-1">Pick-up Time</span>
+                                                  </div>
+                                                  <input
+                                                          id="arrivalTime"
+                                                          type="time"
+                                                          class="time-picker form-control form-control-sm"
+                                                          th:field="*{arrivalTime}"
+                                                          placeholder="Select Time"
+                                                          required>
+                                              </div>
+                                          </div>
                                         <!-- Flight No -->
                                         <div class="col-md-6">
                                             <div class="input-group">
@@ -584,6 +667,7 @@
                                         </div>
 
                                     </div>
+
                                       <!-- Airport Departure -->
                                       <div id="departureFields1" class="row g-3 d-none">
 
@@ -608,19 +692,35 @@
                                         </div>
 
                                         <!-- Pick-up Time -->
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
-                                                    <span class="fas fa-clock"></span>
-                                                    <span class="ms-1">Pick-up Time</span>
-                                                </div>
-                                                <input type="time"
-                                                       class="form-control form-control-sm"
-                                                       th:field="*{departPickupTime}"
-                                                       required>
-                                            </div>
-                                        </div>
+<!--                                        <div class="col-md-6">-->
+<!--                                            <div class="input-group">-->
+<!--                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">-->
+<!--                                                    <span class="fas fa-clock"></span>-->
+<!--                                                    <span class="ms-1">Pick-up Time</span>-->
+<!--                                                </div>-->
+<!--                                                <input type="time"-->
+<!--                                                       class="form-control form-control-sm"-->
+<!--                                                       th:field="*{departPickupTime}"-->
+<!--                                                       required>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
 
+                                          <!--                                          -->
+                                          <div class="col-md-6">
+                                              <div class="input-group">
+                                                  <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
+                                                      <span class="fas fa-clock"></span>
+                                                      <span class="ms-1">Pick-up Time</span>
+                                                  </div>
+                                                  <input
+                                                          id="departPickupTime"
+                                                          type="time"
+                                                          class="time-picker form-control form-control-sm"
+                                                          th:field="*{departPickupTime}"
+                                                          placeholder="Select Time"
+                                                          required>
+                                              </div>
+                                          </div>
                                         <!-- Airport Name -->
                                         <div class="col-md-6">
                                             <div class="input-group">
@@ -743,32 +843,66 @@
                                         </div>
 
                                         <!-- Start Time -->
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
-                                                    <span class="fas fa-clock"></span>
-                                                    <span class="ms-1">Start Time</span>
-                                                </div>
-                                                <input type="time"
-                                                       class="form-control form-control-sm"
-                                                       th:field="*{startTime}"
-                                                       required>
-                                            </div>
-                                        </div>
+<!--                                        <div class="col-md-6">-->
+<!--                                            <div class="input-group">-->
+<!--                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">-->
+<!--                                                    <span class="fas fa-clock"></span>-->
+<!--                                                    <span class="ms-1">Start Time</span>-->
+<!--                                                </div>-->
+<!--                                                <input type="time"-->
+<!--                                                       class="form-control form-control-sm"-->
+<!--                                                       th:field="*{startTime}"-->
+<!--                                                       required>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+                                          <!--                                          -->
+                                          <div class="col-md-6">
+                                              <div class="input-group">
+                                                  <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
+                                                      <span class="fas fa-clock"></span>
+                                                      <span class="ms-1">Pick-up Time</span>
+                                                  </div>
+                                                  <input
+                                                          id="startTime"
+                                                          type="time"
+                                                          class="time-picker form-control form-control-sm"
+                                                          th:field="*{startTime}"
+                                                          placeholder="Select Time"
+                                                          required>
+                                              </div>
+                                          </div>
 
                                         <!-- End Time -->
-                                        <div class="col-md-6">
-                                            <div class="input-group">
-                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
-                                                    <span class="fas fa-clock"></span>
-                                                    <span class="ms-1">End Time</span>
-                                                </div>
-                                                <input type="time"
-                                                       class="form-control form-control-sm"
-                                                       th:field="*{endTime}"
-                                                       required>
-                                            </div>
-                                        </div>
+<!--                                        <div class="col-md-6">-->
+<!--                                            <div class="input-group">-->
+<!--                                                <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">-->
+<!--                                                    <span class="fas fa-clock"></span>-->
+<!--                                                    <span class="ms-1">End Time</span>-->
+<!--                                                </div>-->
+<!--                                                <input type="time"-->
+<!--                                                       class="form-control form-control-sm"-->
+<!--                                                       th:field="*{endTime}"-->
+<!--                                                       required>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+
+                                          <!--                                          -->
+                                          <div class="col-md-6">
+                                              <div class="input-group">
+                                                  <div class="d-flex align-items-center bg-light text-body rounded-start p-1 small fw-normal">
+                                                      <span class="fas fa-clock"></span>
+                                                      <span class="ms-1">Pick-up Time</span>
+                                                  </div>
+                                                  <input
+                                                          id="endTime"
+                                                          type="time"
+                                                          class="time-picker form-control form-control-sm"
+                                                          th:field="*{endTime}"
+                                                          placeholder="Select Time"
+                                                          required>
+                                              </div>
+                                          </div>
                                           <!-- Date -->
                                           <div class="col-md-6">
                                               <div class="input-group">
@@ -856,16 +990,15 @@
                                       <input type="hidden" id="rateInput" th:field="*{tripRate}">
                                    </div>
                                 </form>
-
                             </div>
+                          </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+ </div>
 <!-- Carousel End -->
 
 <!-- Modal (Booking Success - Dark Blue Theme) -->
@@ -919,18 +1052,35 @@
 
 <!-- Template Javascript (LOCAL) -->
 <script th:src="@{/js/main.js}"></script>
+<!--Additionally Added js for Time Picker-->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-<!--Trip Request Date-->
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-    const tripRequestDate = document.getElementById("tripRequestDate");
-    if (tripRequestDate) {
-        tripRequestDate.value = new Date().toISOString().split("T")[0];
-        tripRequestDate.readOnly = true;
-    }
-});
+<!--Time Picker js-->
+<script>
+    flatpickr(".time-picker",{
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "h:i K",   // 02:30 PM
+        time_24hr: false,
+        minuteIncrement: 5
+    });
+ </script>
+
+
+     ,"#retPickUpTime","#returnTime","#arrivalTime","#departPickupTime","#startTime","#endTime"
+
+
+
+ <!--Trip Request Date-->
+ <script>
+ document.addEventListener("DOMContentLoaded", function () {
+     const tripRequestDate = document.getElementById("tripRequestDate");
+     if (tripRequestDate) {
+         tripRequestDate.value = new Date().toISOString().split("T")[0];
+         tripRequestDate.readOnly = true;
+     }
+ });
 </script>
-
 
 <!--Date on future-->
 <script>
@@ -951,6 +1101,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 </script>
+
 <!--Autosuggestion of places-->
 <script>
     async function searchLocation(query) {
@@ -1060,8 +1211,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 </script>
 
-</body>
-</html>
+
 <!--fields generation based on selection of trip type-->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
@@ -1161,8 +1311,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 </script>
 
-
-<!--Autogeneration of Trip rate before booking-->
+<!--Auto generation of Trip rate before booking-->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
@@ -1188,189 +1337,170 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 </script>
-<!--Success Modal instead of redirecting the page -->
+
+
+<!--Email Validation-->
 <script>
     document.getElementById("bookingForm").addEventListener("submit", function (e) {
-        e.preventDefault(); // 🚫 stop normal submit
 
-        const formData = new FormData(this);
 
-        // Attempt to read CSRF token/meta if present (Spring Security) and include in headers
+        if (!validateEmail()) {
+            e.preventDefault();
+            return;
+        }
+
+
+        if (!validateTravellersCount()) {
+            e.preventDefault();
+            return;
+        }
+
+
+        // allow normal submit
+    });
+
+
+    function validateEmail() {
+        const email = document.getElementById("emailInput").value.trim();
+        const emailError = document.getElementById("emailError");
+        const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+
+
+        if (!gmailRegex.test(email)) {
+            emailError.textContent = "Enter a valid Gmail address";
+            emailError.classList.remove("d-none");
+            return false;
+        }
+
+
+        emailError.classList.add("d-none");
+        return true;
+    }
+
+
+    function validateTravellersCount() {
+        const fields = [
+            "oneWayTravellersCount",
+            "returnTravellersCount",
+            "arriveTravellersCount",
+            "departTravellersCount",
+            "dayTripTravellersCount"
+        ];
+
+
+        for (let id of fields) {
+            const el = document.getElementById(id);
+            if (!el) continue; // very important
+
+
+            const val = parseInt(el.value || 0);
+            if (val < 1) {
+                alert("Passengers must be at least 1");
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+    // ✅ MODAL OPENER AFTER PAGE RELOAD
+    window.addEventListener("load", function () {
+        const bookingSuccess = /*[[${bookingSuccess}]]*/ false;
+
+
+        if (bookingSuccess) {
+            const modal = new bootstrap.Modal(
+                document.getElementById("bookingSuccessModal")
+            );
+            modal.show();
+        }
+    });
+</script>
+
+<!--Modal-->
+<script th:if="${bookingSuccess}">
+    // Show bootstrap modal when server set bookingSuccess=true (works with model or flash attribute)
+    (function() {
+      const el = document.getElementById('bookingSuccessModal');
+      if (!el) return;
+      const modal = new bootstrap.Modal(el);
+      modal.show();
+    })();
+</script>
+
+
+<!--email validation-->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const form = document.getElementById("bookingForm");
+      if (!form) return;
+
+
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+
+        // run client validations (reuse existing validateEmail / validateTravellersCount if present)
+        if (typeof validateEmail === 'function' && !validateEmail()) return;
+        if (typeof validateTravellersCount === 'function' && !validateTravellersCount()) return;
+
+
+        const formData = new FormData(form);
         const headers = new Headers();
         headers.append('X-Requested-With', 'XMLHttpRequest');
         const csrfTokenMeta = document.querySelector('meta[name="_csrf"]');
         const csrfHeaderMeta = document.querySelector('meta[name="_csrf_header"]');
         if (csrfTokenMeta) {
-            const token = csrfTokenMeta.getAttribute('content');
-            const headerName = (csrfHeaderMeta ? csrfHeaderMeta.getAttribute('content') : 'X-CSRF-TOKEN');
-            headers.append(headerName, token);
+          const token = csrfTokenMeta.getAttribute('content');
+          const headerName = csrfHeaderMeta ? csrfHeaderMeta.getAttribute('content') : 'X-CSRF-TOKEN';
+          headers.append(headerName, token);
         }
 
-        fetch("/home", {
-            method: "POST",
-            headers: headers,
-            body: formData
+
+        fetch(form.getAttribute('action') || '/home', {
+          method: form.getAttribute('method') || 'POST',
+          headers: headers,
+          body: formData
         })
-        .then(res => res.text())
+        .then(r => r.text())
         .then(result => {
-            if (result === "SUCCESS") {
-                // show bootstrap modal
-                const modalEl = document.getElementById('bookingSuccessModal');
-                const modal = new bootstrap.Modal(modalEl);
-                modal.show();
+          if (result === 'SUCCESS') {
+            const el = document.getElementById('bookingSuccessModal');
+            if (el) new bootstrap.Modal(el).show();
 
-                // Reset form when user clicks OK or modal hidden
-                const okBtn = document.getElementById('bookingSuccessOk');
-                okBtn.addEventListener('click', function () {
-                    document.getElementById('bookingForm').reset();
-                    resetFormUI();
-                }, { once: true });
+          // IMMEDIATE reset-trip request date AFTER RELOAD
+            form.reset();          // clears all fields
+            setTripRequestDate();  // put it IMMEDIATELY after reset
 
-                modalEl.addEventListener('hidden.bs.modal', function () {
-                    document.getElementById('bookingForm').reset();
-                    resetFormUI();
-                }, { once: true });
-            } else {
-                alert('Booking failed. Please try again.');
-            }
+            if (typeof resetFormUI === 'function') resetFormUI();
+          } else {
+            alert('Booking failed. Please try again.');
+          }
         })
         .catch(err => {
-            alert("Something went wrong. Please try again.");
-            console.error(err);
+          console.error(err);
+          alert('Something went wrong. Please try again.');
         });
+      });
     });
+</script>
 
-    // Helper to reset UI parts (hide conditional sections) without re-registering event listeners
-    function resetFormUI() {
-        const ids = ['onewayFields1','returnFields1','arrivalFields1','departureFields1','dayServiceFields1'];
-        ids.forEach(id => {
-            const div = document.getElementById(id);
-            if (!div) return;
-            div.classList.add('d-none');
-            const inputs = div.querySelectorAll('input, select, textarea');
-            inputs.forEach(i => {
-                i.setAttribute('disabled', 'disabled');
-                i.removeAttribute('required');
-            });
-        });
-        // reset rate and trip type
-        const tripRateEl = document.getElementById('tripRate');
-        if (tripRateEl) tripRateEl.innerText = 'AED 0';
-        const rateInput = document.getElementById('rateInput');
-        if (rateInput) rateInput.value = '';
-        const tripType = document.getElementById('tripType1');
-        if (tripType) tripType.value = '';
 
-        // ensure the readonly trip request date stays current after reset
-        const tripRequestDate = document.getElementById('tripRequestDate');
-        if (tripRequestDate) {
-            tripRequestDate.value = new Date().toISOString().split('T')[0];
-            tripRequestDate.readOnly = true;
-        }
+<!-- Trip Request Date Logic RESET -->
+<script>
+    function setTripRequestDate() {
+        const el = document.getElementById("tripRequestDate");
+        if (!el) return;
+        el.value = new Date().toISOString().split("T")[0];
+        el.readOnly = true;
     }
-</script>
 
-<!--email validation-->
-<script>
     document.addEventListener("DOMContentLoaded", function () {
-
-        const emailInput = document.getElementById("emailInput");
-        const emailError = document.getElementById("emailError");
-        const form = document.getElementById("bookingForm");
-
-        // Gmail validation regex
-        const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
-
-        function validateEmail() {
-            const emailValue = emailInput.value.trim();
-
-            if (emailValue === "") {
-                emailError.textContent = "Email is required";
-                emailError.classList.remove("d-none");
-                return false;
-            }
-
-            if (!emailValue.includes("@")) {
-                emailError.textContent = 'Email must contain "@" symbol';
-                emailError.classList.remove("d-none");
-                return false;
-            }
-
-            if (!emailValue.includes("gmail")) {
-                emailError.textContent = 'Only Gmail addresses are allowed';
-                emailError.classList.remove("d-none");
-                return false;
-            }
-
-            if (!emailValue.endsWith(".com")) {
-                emailError.textContent = 'Email must end with ".com"';
-                emailError.classList.remove("d-none");
-                return false;
-            }
-
-            if (!gmailRegex.test(emailValue)) {
-                emailError.textContent = 'Invalid Gmail format (example@gmail.com)';
-                emailError.classList.remove("d-none");
-                return false;
-            }
-
-            // ✅ valid
-            emailError.classList.add("d-none");
-            return true;
-        }
-
-        // 🔹 When user leaves the email field
-        emailInput.addEventListener("blur", validateEmail);
-
-        // 🔹 When user presses Enter inside email field
-        emailInput.addEventListener("keydown", function (e) {
-            if (e.key === "Enter") {
-                if (!validateEmail()) {
-                    e.preventDefault();
-                }
-            }
-        });
-
-        // 🔹 On form submit
-        form.addEventListener("submit", function (e) {
-            if (!validateEmail()) {
-                e.preventDefault();
-                emailInput.focus();
-            }
-        });
-
+        setTripRequestDate();
     });
 </script>
 
-<!--travellers count validation - ) not allowed-->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
 
-        const form = document.getElementById("bookingForm");
+</body>
+</html>
 
-        // Custom validation for travellers count
-        function validateTravellersCount() {
-            const onewayCount = parseInt(document.getElementById("oneWayTravellersCount").value) || 0;
-            const returnCount = parseInt(document.getElementById("returnTravellersCount").value) || 0;
-            const arriveCount = parseInt(document.getElementById("arriveTravellersCount").value) || 0;
-            const departCount = parseInt(document.getElementById("departTravellersCount").value) || 0;
-            const dayTripCount = parseInt(document.getElementById("dayTripTravellersCount").value) || 0;
-
-            // Check if any of the counts are less than 1
-            if (onewayCount < 1 || returnCount < 1 || arriveCount < 1 || departCount < 1 || dayTripCount < 1) {
-                alert("Number of passengers must be at least 1 for all trip types.");
-                return false;
-            }
-
-            return true;
-        }
-
-        // On form submit
-        form.addEventListener("submit", function (e) {
-            if (!validateTravellersCount()) {
-                e.preventDefault();
-            }
-        });
-
-    });
-</script>

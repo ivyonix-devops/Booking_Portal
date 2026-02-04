@@ -50,7 +50,10 @@ public class UserContoller {
     // AJAX endpoint: same path but only handles requests with X-Requested-With=XMLHttpRequest
     @PostMapping(value = "/home", headers = "X-Requested-With=XMLHttpRequest")
     @ResponseBody
-    public String saveUserDetailsAjax(@ModelAttribute("bookingform") BookingRequestDTO dto) {
+    public String saveUserDetailsAjax(@ModelAttribute("bookingform") BookingRequestDTO dto ,Model model) {
+        // process and save booking...
+        model.addAttribute("successMessage", "Booking submitted successfully.");
+        model.addAttribute("bookingSuccess", true); // template script th:if will show modal
         processBooking(dto);
         // respond with simple text that frontend expects
         return "SUCCESS";
@@ -155,6 +158,7 @@ public class UserContoller {
             throw new IllegalArgumentException("Invalid Trip Type! received: " + dto.getTripType());
         }
     }
+
 
     @GetMapping("/about")
     public String about(){
